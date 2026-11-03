@@ -23,6 +23,10 @@ Read applicable agent instructions, architecture decisions, CI, gate commands an
 - **Correctness and integration:** trace concrete scenarios through boundaries. Check data integrity, transaction boundaries, concurrency, retries/idempotency, authorization, error propagation, compatibility, resource lifetime, migration/rollback and performance where applicable. Inspect whether tests can catch the relevant failure rather than merely passing.
 - **Project fit:** check architectural boundaries, established patterns, dependencies, typing, observability and maintainability. Separate documented violations from optional design preferences; do not prescribe abstractions just because a code-smell label fits.
 
+Review the affected behavioral test group, including existing tests, rather than only added assertions. Check that scenarios express the current contract, preserve distinct valid regression cases, and avoid duplicating implementation structure.
+
+For each changed or removed expectation, verify the requirement evidence or equivalent retained coverage that justifies it. Ask whether a different correct implementation could satisfy the same expectations, and which real requirement violation the tests would detect.
+
 For a general codebase review, apply these dimensions across the stated scope, separating existing defects from change-related regressions. Report coverage limits; never claim a whole-project audit after sampling a small area.
 
 ## Execute the gates
