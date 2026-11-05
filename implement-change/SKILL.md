@@ -23,15 +23,25 @@ Set up the environment using the project's package manager and lockfile. Invento
 
 ## Test selection gate
 
-Before writing tests for a change, inspect existing coverage at the relevant test seams and choose what to reuse. If existing tests cover the affected logic and are suitable for the changed behavior, extend or parameterize them rather than adding overlapping tests. Add new tests only for scenarios that existing tests cannot cover clearly and appropriately; reuse established fixtures and helpers. Do not force unrelated scenarios into one test or weaken valid assertions to avoid adding a test.
+Before changing behavior, briefly identify the observable rule, its source in the request or specification, the intended change, and the relevant invariants that must remain true. Do not derive expected results solely from the current or proposed implementation.
 
-Proceed only after identifying the existing tests to update or the specific coverage gap that requires new tests. Keep the resulting coverage focused and maintainable: no duplicate scenarios, parallel test suites or unnecessary fixtures for the same behavior.
+Read existing tests for that behavior. Identify which scenarios remain valid, which expectations are intentionally superseded or contradict the established requirement, which checks duplicate coverage, and which meaningful cases are missing. Prefer updating or extending the existing behavioral tests where this remains clear. Add a new test for a distinct scenario, not merely for a new task, helper, branch, or implementation step.
+
+Choose the smallest stable boundary that exposes the required outcome: a domain function, public component interface, use case, or API as appropriate. Assert meaningful outputs, state changes, errors, and contractual side effects. Keep the behavior under test real; substitute dependencies at appropriate boundaries. Assert interactions only when the interaction itself is part of the contract.
+
+Revise obsolete expectations when requirements intentionally change, or correct an existing expectation when independent requirement evidence shows it was wrong. Explain that basis and preserve unaffected guarantees. Never change an expectation merely to match the implementation or obtain green tests.
+
+Keep each test focused on a coherent behavior. Name tests after that behavior and make important inputs and expected outcomes visible. Parameterize cases that express the same rule; keep unrelated scenarios separate. Reuse established fixtures and helpers without obscuring the scenario. Preserve unique regression cases for requirements that remain valid when consolidating tests.
+
+Proceed only after identifying the existing tests to reuse or revise and the specific coverage gaps that require new tests. Avoid duplicate scenarios, parallel test suites or unnecessary fixtures for the same behavior.
 
 ## Implement and verify
 
 Implement coherent behavioral slices using existing abstractions and conventions. Preserve behavior outside the request; explain necessary deviations from local patterns instead of silently introducing a competing architecture.
 
-Follow the test selection decision when updating coverage for changed behavior. For a bug, reproduce the actual symptom and verify a regression test fails for that reason before the fix where feasible. Use small test cycles; avoid tests that merely mirror internals and blanket TDD ceremonies for nonbehavioral edits.
+Follow the test selection decision when updating coverage. When using test-first cycles, let the selected behavioral scenario drive the change; an existing failing test may already provide RED. For a changed requirement, update the relevant expectation before changing production code where feasible. For a bug, reproduce the actual symptom and verify a regression test fails for that reason before the fix where feasible. Use small test cycles; avoid tests that merely mirror internals and blanket TDD ceremonies for nonbehavioral edits.
+
+After GREEN, review and refactor the affected test group as well as production code. Consolidate redundant checks, remove implementation coupling, and retain every distinct valid scenario. Organize the final suite around the current contract rather than the sequence of fixes.
 
 Before declaring completion or any authorized push, run every applicable required project gate on the final working state, including the full required test suite. Run existing benchmarks when required or relevant to a performance-sensitive change; compare baseline and candidate under equivalent conditions. Reuse results only while their inputs and environment remain unchanged; after edits rerun affected gates. Do not weaken checks, thresholds or assertions to obtain green results.
 

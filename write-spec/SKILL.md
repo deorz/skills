@@ -26,6 +26,8 @@ Use one document as the source of truth; do not generate a separate implementati
 - **Acceptance and verification:** numbered observable criteria, meaningful negative/boundary cases, existing test seams and analogous tests. Identify actual project gate commands and prerequisites where discoverable; distinguish confirmed commands from proposals.
 - **Uncertainty:** assumptions, unresolved decisions and evidence needed to settle them. Mark implementation-blocking questions explicitly.
 
+For changes to existing behavior, distinguish intentionally changed rules, preserved invariants, and superseded expectations. Describe acceptance examples through domain conditions, actions, and observable outcomes. Identify existing behavioral scenarios to revise or extend, without prescribing tests for each implementation step.
+
 For a project vision, define capabilities, system boundaries, MVP and success criteria; detail the first useful slice and leave later contracts explicitly unresolved. For a bounded feature, resolve implementation-critical contracts. Add milestones, dependencies or migration order inside this document only when sequencing matters; avoid step-by-step coding instructions and speculative implementations.
 
 ## Finish
