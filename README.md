@@ -7,6 +7,7 @@ A collection of skills for project work. Each skill must be explicitly invoked b
 | [design-interview](design-interview/SKILL.md) | Refine an idea through a bounded interview and document the decisions. |
 | [investigate](investigate/SKILL.md) | Explore code, diagnose a problem or test a hypothesis. |
 | [write-spec](write-spec/SKILL.md) | Create a project vision or change specification. |
+| [review-spec](review-spec/SKILL.md) | Independently review a specification, resolve findings and iterate authorized fixes toward a bounded readiness decision. |
 | [implement-change](implement-change/SKILL.md) | Implement a change with deliberate test selection and project quality gates. |
 | [review-code](review-code/SKILL.md) | Review requirements, correctness and adherence to project conventions. |
 
@@ -20,6 +21,14 @@ Each top-level directory containing a `SKILL.md` is a standalone skill in the [A
 ```
 
 Client-specific metadata and icons are not included. Each current skill consists solely of a `SKILL.md` containing metadata and instructions, including the explicit invocation requirement.
+
+### Specification review
+
+`review-spec` requires fresh-context subagents for four independent lenses: comprehension, architecture, behavioral contracts and codebase fit. The coordinator resolves findings with evidence and changes the specification only when those edits are authorized. Review-only mode is the default.
+
+The loop allows three rounds by default and converges after two consecutive complete clean rounds on the same inputs, with coverage matched to the specification's stage. Missing reviewers or inaccessible required evidence are reported as incomplete coverage. A client without independent subagents can provide preliminary observations but cannot complete this workflow.
+
+This workflow is inspired by the independent review and resolution approach in Google's [Elephant Goldfish Model](https://github.com/google/elephant-goldfish-model).
 
 ### Organization guidelines
 
@@ -36,7 +45,7 @@ Client-specific metadata and icons are not included. Each current skill consists
 From the repository root, with [uv](https://docs.astral.sh/uv/) installed and network access for the initial download, run the official reference validator, [skills-ref](https://github.com/agentskills/agentskills/tree/main/skills-ref):
 
 ```bash
-for skill in design-interview implement-change investigate review-code write-spec; do
+for skill in design-interview implement-change investigate review-code review-spec write-spec; do
   uvx --from 'git+https://github.com/agentskills/agentskills.git#subdirectory=skills-ref' skills-ref validate "$skill" || exit 1
 done
 ```
